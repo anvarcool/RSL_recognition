@@ -17,5 +17,5 @@ file_labels_test = np.array([labels_map[key] for key in annotations_test['text']
 model = LSTMClassification(63, 128, 1000)
 train, test, train_no_augment = create_datasets()
 testloader = torch.utils.data.DataLoader(test)
-model.load_state_dict(torch.load('final_model_weights.pth', map_location=torch.device('cpu')))
+model.load_state_dict(torch.load('final_model_weights.pth'))
 evaluate_RNN(model, testloader)

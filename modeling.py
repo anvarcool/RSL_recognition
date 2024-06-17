@@ -4,6 +4,7 @@ import torch
 from tqdm import tqdm
 import gc
 from torch import optim
+import time
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class LSTMClassification(nn.Module):
     def __init__(self, input_dim, hidden_dim, target_size):
@@ -65,9 +66,9 @@ class LSTMClassification(nn.Module):
         x = self.norm(lstm_out[:, -1, :])
         logits = self.fc(x)
         return logits
-    def fit(self, trainloader, testloader, trainloader_no_augment, n_epochs):
+    def fit(self, trainloader, testloader, trainloader_no_augment, n_epochs, batch_size):
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(model.parameters(), lr = 0.0001)
+        optimizer = optim.Adam(self.parameters(), lr = 0.0001)
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, 10, 0.9)
         self.to(device)
         for epoch in range(n_epochs):
@@ -90,8 +91,8 @@ class LSTMClassification(nn.Module):
             if (epoch + 1) % 20 == 0:
                 accuracy_test = evaluate_RNN(self, testloader)
                 accuracy_train = evaluate_RNN(self, trainloader_no_augment)
-                acc_train.append(accuracy_train.item())
-                acc_test.append(accuracy_test.item())
+                # acc_train.append(accuracy_train.item())
+                # acc_test.append(accuracy_test.item())
                 print(accuracy_test, accuracy_train)
                 gc.collect()
                 torch.cuda.empty_cache()

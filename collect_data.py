@@ -1,17 +1,10 @@
-# import pickle
-# import os
-# import sys
-# from tqdm import tqdm
-# import numpy as np
-# import pandas as pd
-# import time
-# from torch.utils.data import DataLoader
-# import torch
-# from tqdm import tqdm
-# import gc
-# import json
-# import random
-
+from tqdm import tqdm
+import numpy as np
+import pandas as pd
+import torch
+from tqdm import tqdm
+import gc
+import json
 
 def parse_json(json_path):    
     with open(json_path, 'r') as f:
@@ -50,7 +43,7 @@ def json_to_tensors_and_save(filenames_train, filenames_test, json_path):
     jsons = parse_json(json_path)
     #Train
     train_h2 = torch.zeros(len(filenames_train), 3, 21, 256)
-    train = torch.zeros(len(filenames_train)3, 21, 256)
+    train = torch.zeros(len(filenames_train), 3, 21, 256)
     for num, item in enumerate(tqdm(filenames_train)):
         d = json.loads(jsons[item])[f'"{item}"']
         out = torch.zeros(3, 21, len(d))
