@@ -89,8 +89,8 @@ def json_to_tensors_and_save(filenames_train, filenames_test, json_path):
         torch.save(test, r'test.pt')
 
 
-def collect_data():
-    json_path = r'data\slovo_mediapipe.json'
+def collect_data(input_path):
+    json_path = f'{input_path}\slovo_mediapipe.json'
     annotations = pd.read_csv(r'data\annotations.csv', sep = '\t')
     annotations_train = annotations.query('train & (text != "no_event")')
     annotations_test = annotations.query('~train & (text != "no_event")')
